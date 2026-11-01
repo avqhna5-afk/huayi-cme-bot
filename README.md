@@ -70,7 +70,7 @@ for inp in inputs:
 ## 安装
 
 ```bash
-git clone https://github.com/<your-name>/huayi-cme-bot.git
+git clone https://github.com/avqhna5-afk/huayi-cme-bot.git
 cd huayi-cme-bot
 
 python -m venv .venv
