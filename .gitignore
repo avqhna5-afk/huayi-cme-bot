@@ -1,0 +1,11 @@
+# 账号与运行态（含个人隐私，绝不入库）
+config.json
+data/
+.chrome-profile/
+*.log
+captcha.png
+elective_*.png
+__pycache__/
+*.pyc
+.venv/
+.DS_Store

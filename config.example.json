@@ -1,0 +1,14 @@
+{
+  "username": "你的身份证号或登录账号",
+  "password": "你的密码",
+  "base_url": "https://cme40.91huayi.com",
+  "headless": false,
+  "profile_dir": ".chrome-profile",
+  "state_file": "data/state.json",
+  "answers_file": "data/answers.json",
+  "questions_file": "data/questions.json",
+  "log_file": "data/watch.log",
+  "progress_interval_sec": 240,
+  "ended_buffer_sec": 18,
+  "action_delay": [0.25, 0.6]
+}

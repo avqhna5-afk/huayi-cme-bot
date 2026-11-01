@@ -1,0 +1,2 @@
+playwright>=1.40
+ddddocr>=1.4.6
