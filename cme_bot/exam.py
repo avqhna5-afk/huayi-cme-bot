@@ -203,6 +203,26 @@ def submit(page: Page, session, cwid: str, qs: Dict[str, Any], letters: Sequence
     return flag
 
 
+MAX_COMBOS = 400  # 单门课的组合数上限：超过这个数，说明候选集没收敛，先回去看题
+
+
+def _pools(candidates: Sequence[Sequence[str]], qs: Dict[str, Any]) -> List[List[str]]:
+    groups = []
+    for j, q in enumerate(qs["qs"]):
+        c = list(dict.fromkeys(candidates[j])) if j < len(candidates) and candidates[j] else ["A"]
+        c = [x for x in c if LETTER.get(x, 9) < len(q["opts"])] or ["A"]
+        groups.append(c)
+    return groups
+
+
+def space_size(candidates: Sequence[Sequence[str]], qs: Dict[str, Any]) -> int:
+    """候选集的组合总数，交卷前先看一眼，别盲跑。"""
+    n = 1
+    for g in _pools(candidates, qs):
+        n *= len(g)
+    return n
+
+
 def solve(session, page: Page, cwid: str, qs: Dict[str, Any],
           candidates: Sequence[Sequence[str]], on_result=None) -> Optional[List[str]]:
     """按「每题候选集」做笛卡尔积穷举，命中即返回答案文本。
@@ -210,12 +230,7 @@ def solve(session, page: Page, cwid: str, qs: Dict[str, Any],
     candidates 形如 [["C"], ["A","B"], ["B","C"], ["A"], ["C"]]
     每题只列高概率选项，组合数就会很小（通常几十次以内）。
     """
-    groups = []
-    for j, q in enumerate(qs["qs"]):
-        c = list(dict.fromkeys(candidates[j])) if j < len(candidates) and candidates[j] else ["A"]
-        c = [x for x in c if LETTER.get(x, 9) < len(q["opts"])] or ["A"]
-        groups.append(c)
-
+    groups = _pools(candidates, qs)
     combos = list(itertools.product(*groups))
     for k, combo in enumerate(combos, 1):
         flag = submit(page, session, cwid, qs, combo)

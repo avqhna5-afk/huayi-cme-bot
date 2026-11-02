@@ -146,6 +146,13 @@ def cmd_exam(cfg, answers_path: str, cands_path: str):
             def on_result(k, n, combo, flag, _c=cwid):
                 print(f"  {_c[:8]} 试{k}/{n} {combo} -> {flag}", flush=True)
 
+            space = exam.space_size(cands[cwid], q)
+            if space > exam.MAX_COMBOS:
+                print(f"{cwid[:8]} {name[:22]} 候选组合 {space} 种，超过上限 "
+                      f"{exam.MAX_COMBOS}，先收窄候选集（见 README 第 6 条）", flush=True)
+                continue
+            print(f"{cwid[:8]} {name[:22]} 候选空间 {space} 种，开始穷举", flush=True)
+
             found = exam.solve(s, page, cwid, q, cands[cwid], on_result)
             if found:
                 answers[cwid] = found
